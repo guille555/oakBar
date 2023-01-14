@@ -22,6 +22,10 @@ public class Brand {
     return brandId;
   }
 
+  public void setBrandId(Byte brandId) {
+    this.brandId = brandId;
+  }
+
   public String getBrandName() {
     return brandName;
   }

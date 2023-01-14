@@ -22,6 +22,10 @@ public class ProductItem {
     return productItemId;
   }
 
+  public void setProductItemId(Long productItemId) {
+    this.productItemId = productItemId;
+  }
+
   public Date getElaboratinDate() {
     return elaboratinDate;
   }

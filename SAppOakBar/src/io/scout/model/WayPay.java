@@ -17,6 +17,10 @@ public class WayPay {
     return wayPayId;
   }
 
+  public void setWayPayId(Byte wayPayId) {
+    this.wayPayId = wayPayId;
+  }
+
   public String getDenomination() {
     return denomination;
   }

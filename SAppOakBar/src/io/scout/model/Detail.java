@@ -24,6 +24,10 @@ public class Detail {
     return detailId;
   }
 
+  public void setDetailId(Long detailId) {
+    this.detailId = detailId;
+  }
+
   public Date getSaleDate() {
     return saleDate;
   }
