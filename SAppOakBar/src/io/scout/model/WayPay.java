@@ -7,17 +7,17 @@ import java.util.Objects;
  */
 public class WayPay {
 
-  private Byte wayPayId;
+  private byte wayPayId;
   private String denomination;
   private boolean flagState;
 
   public WayPay() {}
 
-  public Byte getWayPayId() {
+  public byte getWayPayId() {
     return wayPayId;
   }
 
-  public void setWayPayId(Byte wayPayId) {
+  public void setWayPayId(byte wayPayId) {
     this.wayPayId = wayPayId;
   }
 

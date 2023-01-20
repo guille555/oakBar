@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 public class ProductItem {
 
-  private Long productItemId;
+  private long productItemId;
   private Date elaboratinDate;
   private float price;
   private boolean flagSold;
@@ -18,11 +18,11 @@ public class ProductItem {
 
   public ProductItem() {}
 
-  public Long getProductItemId() {
+  public long getProductItemId() {
     return productItemId;
   }
 
-  public void setProductItemId(Long productItemId) {
+  public void setProductItemId(long productItemId) {
     this.productItemId = productItemId;
   }
 

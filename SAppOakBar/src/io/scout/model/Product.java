@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class Product {
 
-  private Long productId;
+  private int productId;
   private String productName;
   private float actualPrice;
   private boolean flagState;
@@ -20,11 +20,11 @@ public class Product {
     this.listProducts = new ArrayList<ProductItem>();
   }
 
-  public Long getProductId() {
+  public int getProductId() {
     return productId;
   }
 
-  public void setProductId(Long productId) {
+  public void setProductId(int productId) {
     this.productId = productId;
   }
 

@@ -3,18 +3,18 @@ CREATE DATABASE oakBarDB;
 USE oakBarDB;
 
 CREATE TABLE brands (
-  brand_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  brand_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   brand_name VARCHAR(25),
   flag_state BOOLEAN,
   PRIMARY KEY(brand_id)
 );
 
 CREATE TABLE products (
-  product_id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  product_id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
   product_name VARCHAR(40),
   actual_price DECIMAL,
   flag_state BOOLEAN,
-  brand_id TINYINT UNSIGNED,
+  brand_id SMALLINT UNSIGNED,
   PRIMARY KEY(product_id)
 );
 
@@ -22,8 +22,9 @@ CREATE TABLE product_items (
   product_item_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   elaboration_date DATETIME,
   price DECIMAL,
+  flag_sold BOOLEAN,
   flag_state BOOLEAN,
-  product_id SMALLINT UNSIGNED,
+  product_id MEDIUMINT UNSIGNED,
   detail_id BIGINT UNSIGNED,
   PRIMARY KEY(product_item_id)
 );

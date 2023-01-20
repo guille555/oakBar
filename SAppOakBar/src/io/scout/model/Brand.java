@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class Brand {
 
-  private Byte brandId;
+  private short brandId;
   private String brandName;
   private boolean flagState;
   private List<Product> listProducts;
@@ -18,11 +18,11 @@ public class Brand {
     this.listProducts = new ArrayList<Product>();
   }
 
-  public Byte getBrandId() {
+  public short getBrandId() {
     return brandId;
   }
 
-  public void setBrandId(Byte brandId) {
+  public void setBrandId(short brandId) {
     this.brandId = brandId;
   }
 

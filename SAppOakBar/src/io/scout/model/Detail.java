@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class Detail {
 
-  private Long detailId;
+  private long detailId;
   private Date saleDate;
   private boolean flagState;
   private WayPay wayPay;
@@ -20,11 +20,11 @@ public class Detail {
     this.listProductItems = new ArrayList<ProductItem>();
   }
 
-  public Long getDetailId() {
+  public long getDetailId() {
     return detailId;
   }
 
-  public void setDetailId(Long detailId) {
+  public void setDetailId(long detailId) {
     this.detailId = detailId;
   }
 

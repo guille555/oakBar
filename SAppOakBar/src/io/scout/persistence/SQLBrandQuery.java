@@ -16,12 +16,11 @@ public class SQLBrandQuery {
 
   public void saveBrand(String brandName) {
     this.connection = new DBConnection();
-    String statement = "INSERT INTO brands(brand_name, flag_state) VALUES (?, ?)";
+    String statement = "INSERT INTO brands(brand_name, flag_state) VALUES (?, TRUE)";
     PreparedStatement query = null;
     try(Connection conn = this.connection.getConnection()) {
       query = conn.prepareStatement(statement);
       query.setString(1, brandName.toUpperCase());
-      query.setBoolean(2, true);
       query.executeUpdate();
       query.close();
     } catch(SQLException exc) {
@@ -29,14 +28,14 @@ public class SQLBrandQuery {
     }
   }
 
-  public void updateBrand(Byte id, String brandName) {
+  public void updateBrand(short id, String brandName) {
     this.connection = new DBConnection();
     String statement = "UPDATE brands SET brand_name = ? WHERE ((flag_state = TRUE) AND (brand_id = ?))";
     PreparedStatement query = null;
     try (Connection conn = this.connection.getConnection()) {
       query = conn.prepareStatement(statement);
       query.setString(1, brandName.toUpperCase());
-      query.setByte(2, id.byteValue());
+      query.setInt(2, id);
       query.executeUpdate();
       query.close();
     } catch (SQLException exc) {
@@ -44,13 +43,13 @@ public class SQLBrandQuery {
     }
   }
 
-  public void eraseBrand(Byte id) {
+  public void eraseBrand(short id) {
     this.connection = new DBConnection();
     String statement = "UPDATE brands SET flag_state = FALSE WHERE ((flag_state = TRUE) AND (brand_id = ?))";
     PreparedStatement query = null;
     try (Connection conn = this.connection.getConnection()) {
       query = conn.prepareStatement(statement);
-      query.setByte(1, id.byteValue());
+      query.setInt(1, id);
       query.executeUpdate();
       query.close();
     } catch (SQLException exc) {
@@ -58,13 +57,13 @@ public class SQLBrandQuery {
     }
   }
 
-  /*public void deleteBrand(Byte id) {
+  /*public void deleteBrand(short id) {
     this.connection = new DBConnection();
     String statement = "DELETE FROM brands WHERE ((flag_state = TRUE) AND (brand_id = ?))";
     PreparedStatement query = null;
     try (Connection conn = this.connection.getConnection()) {
       query = conn.prepareStatement(statement);
-      query.setByte(1, id.byteValue());
+      query.setInt(1, id);
       query.executeUpdate();
       query.close();
     } catch (SQLException exc) {
@@ -72,7 +71,7 @@ public class SQLBrandQuery {
     }
   }*/
 
-  public Brand getBrandById(Byte id) {
+  public Brand getBrandById(short id) {
     this.connection = new DBConnection();
     String statement = "SELECT * FROM brands WHERE (brand_id = ?)";
     PreparedStatement query = null;
@@ -80,13 +79,11 @@ public class SQLBrandQuery {
     Brand brand = null;
     try (Connection conn = this.connection.getConnection()) {
       query = conn.prepareStatement(statement);
-      query.setByte(1, id.byteValue());
+      query.setInt(1, id);
       result = query.executeQuery();
       while (result.next()) {
-        byte resultId = result.getByte("brand_id");
-        Byte brandId = Byte.valueOf(resultId);
         brand = new Brand();
-        brand.setBrandId(brandId);
+        brand.setBrandId(result.getShort("brand_id"));
         brand.setBrandName(result.getString("brand_name"));
         brand.setFlagState(result.getBoolean("flag_state"));
       }
@@ -109,7 +106,7 @@ public class SQLBrandQuery {
       result = query.executeQuery();
       while (result.next()) {
         Brand brand = new Brand();
-        brand.setBrandId(result.getByte("brand_id"));
+        brand.setBrandId(result.getShort("brand_id"));
         brand.setBrandName(result.getString("brand_name"));
         brand.setFlagState(result.getBoolean("flag_state"));
         listBrands.add(brand);
@@ -122,18 +119,19 @@ public class SQLBrandQuery {
     return listBrands;
   }
 
-  public List<Brand> getAllBrandsActive() {
+  public List<Brand> getAllBrandsByState(boolean flagState) {
     this.connection = new DBConnection();
-    String statement = "SELECT * FROM brands WHERE (flag_State = TRUE) ORDER BY brand_name";
+    String statement = "SELECT * FROM brands WHERE (flag_State = ?) ORDER BY brand_name";
     PreparedStatement query = null;
     ResultSet result = null;
     List<Brand> listBrands = new ArrayList<Brand>();
     try(Connection conn = this.connection.getConnection()) {
       query = conn.prepareStatement(statement);
+      query.setBoolean(1, flagState);
       result = query.executeQuery();
       while (result.next()) {
         Brand brand = new Brand();
-        brand.setBrandId(result.getByte("brand_id"));
+        brand.setBrandId(result.getShort("brand_id"));
         brand.setBrandName(result.getString("brand_name"));
         brand.setFlagState(result.getBoolean("flag_state"));
         listBrands.add(brand);
@@ -141,7 +139,7 @@ public class SQLBrandQuery {
       result.close();
       query.close();
     } catch (SQLException exc) {
-      System.err.println("ERROR: Fail to get all actives brands objects: " + exc.getMessage());
+      System.err.println("ERROR: Fail to get all brands objects: " + exc.getMessage());
     }
     return listBrands;
   }
