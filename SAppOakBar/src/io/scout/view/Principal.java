@@ -35,7 +35,7 @@ public class Principal extends javax.swing.JFrame {
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     labelWelcome.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
-    labelWelcome.setText("Oak Bar");
+    labelWelcome.setText("OAk BAr");
 
     javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
     mainPanel.setLayout(mainPanelLayout);
@@ -57,6 +57,11 @@ public class Principal extends javax.swing.JFrame {
     menuManagement.setText("Management");
 
     menuItemBrand.setText("Brands");
+    menuItemBrand.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        menuItemBrandActionPerformed(evt);
+      }
+    });
     menuManagement.add(menuItemBrand);
 
     menuItemDetail.setText("Details");
@@ -91,6 +96,13 @@ public class Principal extends javax.swing.JFrame {
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
+
+  private void menuItemBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemBrandActionPerformed
+    ManageBrands view = null;
+    view = new ManageBrands();
+    view.setVisible(true);
+    this.dispose();
+  }//GEN-LAST:event_menuItemBrandActionPerformed
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel labelWelcome;

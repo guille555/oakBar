@@ -14,7 +14,7 @@ public class SQLBrandQuery {
 
   public SQLBrandQuery() {}
 
-  public void saveBrand(String brandName) {
+  public void saveBrand(String brandName) throws SQLException {
     this.connection = new DBConnection();
     String statement = "INSERT INTO brands(brand_name, flag_state) VALUES (?, TRUE)";
     PreparedStatement query = null;
@@ -25,6 +25,7 @@ public class SQLBrandQuery {
       query.close();
     } catch(SQLException exc) {
       System.err.println("ERROR SQL: Fail to save a brand object: " + exc.getMessage());
+      throw exc;
     }
   }
 
@@ -140,6 +141,34 @@ public class SQLBrandQuery {
       query.close();
     } catch (SQLException exc) {
       System.err.println("ERROR: Fail to get all brands objects: " + exc.getMessage());
+    }
+    return listBrands;
+  }
+
+  public List<Brand> getAllBrandsByName(String name) {
+    if (name.isEmpty()) {
+      return this.getAllBrandsByState(true);
+    }
+    this.connection = new DBConnection();
+    String statement = "SELECT * FROM brands WHERE ((flag_State = TRUE) AND (brand_name LIKE ?)) ORDER BY brand_name";
+    PreparedStatement query = null;
+    ResultSet result = null;
+    List<Brand> listBrands = new ArrayList<Brand>();
+    try(Connection conn = this.connection.getConnection()) {
+      query = conn.prepareStatement(statement);
+      query.setString(1, name.toUpperCase().concat("%"));
+      result = query.executeQuery();
+      while (result.next()) {
+        Brand brand = new Brand();
+        brand.setBrandId(result.getShort("brand_id"));
+        brand.setBrandName(result.getString("brand_name"));
+        brand.setFlagState(result.getBoolean("flag_state"));
+        listBrands.add(brand);
+      }
+      result.close();
+      query.close();
+    } catch (SQLException exc) {
+      System.err.println("ERROR: Fail to get all filtered brands objects: " + exc.getMessage());
     }
     return listBrands;
   }
