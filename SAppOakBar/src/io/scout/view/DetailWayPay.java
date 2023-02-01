@@ -1,7 +1,7 @@
 package io.scout.view;
 
-import io.scout.model.Brand;
-import io.scout.persistence.SQLBrandQuery;
+import io.scout.model.WayPay;
+import io.scout.persistence.SQLWayPayQuery;
 import io.scout.util.Tag;
 import io.scout.util.Util;
 import java.awt.Color;
@@ -9,37 +9,38 @@ import java.awt.Color;
 /**
  * @author Guillermo, Gómez
  */
-public class DetailBrand extends javax.swing.JFrame {
+public class DetailWayPay extends javax.swing.JFrame {
 
-  public DetailBrand() {
+  public DetailWayPay() {
     initComponents();
   }
 
-  public DetailBrand(short id) {
+  public DetailWayPay(byte id) {
     this();
     this.initView(id);
   }
 
-  private void initView(short id) {
+  private void initView(byte id) {
     Util util = null;
     util = new Util();
     util.initView(this);
-    this.textFieldName.setEnabled(false);
-    this.textFieldName.setDisabledTextColor(Color.DARK_GRAY);
+    this.textFieldDenomination.setEnabled(false);
+    this.textFieldDenomination.setDisabledTextColor(Color.DARK_GRAY);
     this.loadData(id);
   }
 
-  private void loadData(short id) {
-    SQLBrandQuery querys = null;
-    StringBuilder text = new StringBuilder();
-    Brand brand = null;
-    querys = new SQLBrandQuery();
-    brand = querys.getBrandById(id);
+  private void loadData(byte id) {
+    WayPay wayPay = null;
+    SQLWayPayQuery querys = null;
+    StringBuilder text = null;
+    querys = new SQLWayPayQuery();
+    text = new StringBuilder();
+    wayPay = querys.getWayPayById(id);
     text.append(Tag.TAG_ID.toString());
     text.append(": ");
-    text.append(brand.getBrandId());
+    text.append(wayPay.getWayPayId());
     this.labelId.setText(text.toString());
-    this.textFieldName.setText(brand.getBrandName());
+    this.textFieldDenomination.setText(wayPay.getDenomination());
   }
 
   @SuppressWarnings("unchecked")
@@ -48,26 +49,26 @@ public class DetailBrand extends javax.swing.JFrame {
 
     mainPanel = new javax.swing.JPanel();
     labelTitle = new javax.swing.JLabel();
-    informationPanel = new javax.swing.JPanel();
+    formPanel = new javax.swing.JPanel();
     labelId = new javax.swing.JLabel();
-    labelName = new javax.swing.JLabel();
-    textFieldName = new javax.swing.JTextField();
+    labelDenomination = new javax.swing.JLabel();
+    textFieldDenomination = new javax.swing.JTextField();
     buttonReturn = new javax.swing.JButton();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     labelTitle.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
-    labelTitle.setText("Brand detail");
+    labelTitle.setText("Way to Pay detail");
 
-    informationPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+    formPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
     labelId.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
     labelId.setText("ID:");
 
-    labelName.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-    labelName.setText("Name:");
+    labelDenomination.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+    labelDenomination.setText("Denomination:");
 
-    textFieldName.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+    textFieldDenomination.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
     buttonReturn.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
     buttonReturn.setText("Return");
@@ -77,31 +78,31 @@ public class DetailBrand extends javax.swing.JFrame {
       }
     });
 
-    javax.swing.GroupLayout informationPanelLayout = new javax.swing.GroupLayout(informationPanel);
-    informationPanel.setLayout(informationPanelLayout);
-    informationPanelLayout.setHorizontalGroup(
-      informationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(informationPanelLayout.createSequentialGroup()
+    javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(formPanel);
+    formPanel.setLayout(formPanelLayout);
+    formPanelLayout.setHorizontalGroup(
+      formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(formPanelLayout.createSequentialGroup()
         .addContainerGap()
-        .addGroup(informationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(labelId)
-          .addComponent(labelName)
-          .addComponent(textFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addComponent(labelDenomination)
+          .addComponent(textFieldDenomination, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, informationPanelLayout.createSequentialGroup()
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelLayout.createSequentialGroup()
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         .addComponent(buttonReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addContainerGap())
     );
-    informationPanelLayout.setVerticalGroup(
-      informationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(informationPanelLayout.createSequentialGroup()
+    formPanelLayout.setVerticalGroup(
+      formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(formPanelLayout.createSequentialGroup()
         .addContainerGap()
         .addComponent(labelId)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(labelName)
+        .addComponent(labelDenomination)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(textFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(textFieldDenomination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(buttonReturn)
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -115,7 +116,7 @@ public class DetailBrand extends javax.swing.JFrame {
         .addContainerGap()
         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(labelTitle)
-          .addComponent(informationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addComponent(formPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     mainPanelLayout.setVerticalGroup(
@@ -124,7 +125,7 @@ public class DetailBrand extends javax.swing.JFrame {
         .addContainerGap()
         .addComponent(labelTitle)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(informationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(formPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
@@ -136,28 +137,26 @@ public class DetailBrand extends javax.swing.JFrame {
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 0, Short.MAX_VALUE))
+      .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
     );
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
   private void buttonReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonReturnActionPerformed
-    ManageBrands view = null;
-    view = new ManageBrands();
+    ManageWayPay view = null;
+    view = new ManageWayPay();
     view.setVisible(true);
     this.dispose();
   }//GEN-LAST:event_buttonReturnActionPerformed
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton buttonReturn;
-  private javax.swing.JPanel informationPanel;
+  private javax.swing.JPanel formPanel;
+  private javax.swing.JLabel labelDenomination;
   private javax.swing.JLabel labelId;
-  private javax.swing.JLabel labelName;
   private javax.swing.JLabel labelTitle;
   private javax.swing.JPanel mainPanel;
-  private javax.swing.JTextField textFieldName;
+  private javax.swing.JTextField textFieldDenomination;
   // End of variables declaration//GEN-END:variables
 }

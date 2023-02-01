@@ -74,6 +74,11 @@ public class Principal extends javax.swing.JFrame {
     menuManagement.add(menuItemProduct);
 
     menuItemWayPay.setText("Ways to Pay");
+    menuItemWayPay.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        menuItemWayPayActionPerformed(evt);
+      }
+    });
     menuManagement.add(menuItemWayPay);
 
     menuBar.add(menuManagement);
@@ -103,6 +108,13 @@ public class Principal extends javax.swing.JFrame {
     view.setVisible(true);
     this.dispose();
   }//GEN-LAST:event_menuItemBrandActionPerformed
+
+  private void menuItemWayPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemWayPayActionPerformed
+    ManageWayPay view = null;
+    view = new ManageWayPay();
+    view.setVisible(true);
+    this.dispose();
+  }//GEN-LAST:event_menuItemWayPayActionPerformed
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JLabel labelWelcome;
