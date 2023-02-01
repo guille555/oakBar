@@ -72,7 +72,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="mainPanel" alignment="0" max="32767" attributes="0"/>
+          <Component id="mainPanel" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -87,7 +87,7 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="labelTitle" min="-2" max="-2" attributes="0"/>
                       <Component id="panelControl" max="32767" attributes="0"/>
-                      <Component id="scrollPanelBrands" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="scrollPanelWaysPay" alignment="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -101,7 +101,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="panelControl" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="scrollPanelBrands" min="-2" pref="450" max="-2" attributes="0"/>
+                  <Component id="scrollPanelWaysPay" min="-2" pref="450" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -113,7 +113,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Monospaced" size="24" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Brands"/>
+            <Property name="text" type="java.lang.String" value="Way to Pay"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="panelControl">
@@ -128,12 +128,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                              <Component id="labelName" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelDenomination" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="labelSearch" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -148,7 +148,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="buttonErase" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="textFieldSearchName" alignment="0" min="-2" pref="312" max="-2" attributes="0"/>
+                          <Component id="textFieldDenomination" alignment="0" min="-2" pref="312" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -160,9 +160,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelSearch" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelName" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelDenomination" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="textFieldSearchName" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldDenomination" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="buttonSearch" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -188,7 +188,15 @@
                 <Property name="text" type="java.lang.String" value="Search"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="textFieldSearchName">
+            <Component class="javax.swing.JLabel" name="labelDenomination">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Monospaced" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Denomination:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="textFieldDenomination">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Monospaced" size="14" style="0"/>
@@ -204,6 +212,17 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonSearchActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="buttonClean">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Monospaced" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Clean"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCleanActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="buttonRegister">
@@ -231,7 +250,7 @@
             <Component class="javax.swing.JButton" name="buttonErase">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Monospaced" size="14" style="0"/>
+                  <Font name="DejaVu Sans" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Erase"/>
               </Properties>
@@ -239,35 +258,16 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonEraseActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="labelName">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Monospaced" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Name:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="buttonClean">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Monospaced" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Clean"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCleanActionPerformed"/>
-              </Events>
-            </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JScrollPane" name="scrollPanelBrands">
+        <Container class="javax.swing.JScrollPane" name="scrollPanelWaysPay">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tableBrands">
+            <Component class="javax.swing.JTable" name="tableWaysPay">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="0" rowCount="0"/>

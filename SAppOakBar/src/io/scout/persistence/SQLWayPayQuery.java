@@ -148,4 +148,33 @@ public class SQLWayPayQuery {
     }
     return listWaysPay;
   }
+
+  public List<WayPay> getAllWaysPayByDenomination(String denomination) {
+    if (denomination.isEmpty()) {
+      return this.getAllWaysPayByState(true);
+    }
+    this.connection = new DBConnection();
+    String statement = "SELECT * FROM ways_pay WHERE ((flag_state = TRUE) AND (denomination LIKE ?)) ORDER BY denomination";
+    PreparedStatement query = null;
+    ResultSet result = null;
+    WayPay wayPay = null;
+    List<WayPay> listWaysPay = new ArrayList<WayPay>();
+    try (Connection conn = this.connection.getConnection()) {
+      query = conn.prepareStatement(statement);
+      query.setString(1, denomination.toUpperCase().concat("%"));
+      result = query.executeQuery();
+      while (result.next()) {
+        wayPay = new WayPay();
+        wayPay.setWayPayId(result.getByte("way_pay_id"));
+        wayPay.setDenomination(result.getString("denomination"));
+        wayPay.setFlagState(result.getBoolean("flag_state"));
+        listWaysPay.add(wayPay);
+      }
+      result.close();
+      query.close();
+    } catch (SQLException exc) {
+      System.err.println("ERROR SQL: Fail to bring filtered 'WayPay' objects: " + exc.getMessage());
+    }
+    return listWaysPay;
+  }
 }

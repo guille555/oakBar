@@ -1,7 +1,7 @@
 package io.scout.view;
 
-import io.scout.model.Brand;
-import io.scout.persistence.SQLBrandQuery;
+import io.scout.model.WayPay;
+import io.scout.persistence.SQLWayPayQuery;
 import io.scout.util.Util;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,62 +12,62 @@ import javax.swing.table.DefaultTableModel;
 /**
  * @author Guillermo, Gómez
  */
-public class ManageBrands extends javax.swing.JFrame {
+public class ManageWayPay extends javax.swing.JFrame {
 
-  private final String[] HEADERS = {"NAME"};
-  private List<Brand> listBrands = null;
+  private final String[] HEADERS = {"DENOMINATION"};
+  private List<WayPay> listWaysPay = null;
 
-  public ManageBrands() {
+  public ManageWayPay() {
     initComponents();
     this.initView();
   }
-
+  
   private void initView() {
     Util util = null;
     util = new Util();
     util.initView(this);
-    this.loadTable("");
     this.configDetail();
-    this.textFieldSearchName.requestFocus();
+    this.loadTable("");
+    this.textFieldDenomination.requestFocus();
   }
 
   private void clean() {
-    this.textFieldSearchName.setText(null);
-    this.textFieldSearchName.requestFocus();
+    this.textFieldDenomination.setText(null);
+    this.textFieldDenomination.requestFocus();
   }
 
-  private void loadTable(String name) {
+  private void loadTable(String denomination) {
     Util util = null;
-    util = new Util();
     String[] data = null;
-    SQLBrandQuery querys = null;
-    DefaultTableModel defaultTableModel = null;
+    SQLWayPayQuery querys = null;
+    util = new Util();
     data = new String[1];
-    querys = new SQLBrandQuery();
-    util.configTable(this.tableBrands, this.HEADERS);
-    defaultTableModel = util.getDefaultTableModel(this.tableBrands);
-    this.listBrands = querys.getAllBrandsByName(name);
-    for (Brand brand : this.listBrands) {
-      data[0] = brand.getBrandName();
+    querys = new SQLWayPayQuery();
+    DefaultTableModel defaultTableModel = null;
+    util.configTable(this.tableWaysPay, this.HEADERS);
+    defaultTableModel = util.getDefaultTableModel(this.tableWaysPay);
+    this.listWaysPay = querys.getAllWaysPayByDenomination(denomination);
+    for (WayPay wayPay : this.listWaysPay) {
+      data[0] = wayPay.getDenomination();
       defaultTableModel.addRow(data);
     }
   }
 
   private void showDetail(int row) {
-    short id;
-    DetailBrand view = null;
-    id = this.listBrands.get(row).getBrandId();
-    view = new DetailBrand(id);
+    byte id;
+    DetailWayPay view = null;
+    id = this.listWaysPay.get(row).getWayPayId();
+    view = new DetailWayPay(id);
     view.setVisible(true);
     this.dispose();
   }
 
   private void configDetail() {
-    this.tableBrands.addMouseListener(new MouseAdapter() {
+    this.tableWaysPay.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent mouseEvent) {
         int row;
-        row = tableBrands.rowAtPoint(mouseEvent.getPoint());
+        row = tableWaysPay.rowAtPoint(mouseEvent.getPoint());
         if ((mouseEvent.getClickCount() == 2) && (row != -1)) {
           showDetail(row);
         }
@@ -83,15 +83,15 @@ public class ManageBrands extends javax.swing.JFrame {
     labelTitle = new javax.swing.JLabel();
     panelControl = new javax.swing.JPanel();
     labelSearch = new javax.swing.JLabel();
-    textFieldSearchName = new javax.swing.JTextField();
+    labelDenomination = new javax.swing.JLabel();
+    textFieldDenomination = new javax.swing.JTextField();
     buttonSearch = new javax.swing.JButton();
+    buttonClean = new javax.swing.JButton();
     buttonRegister = new javax.swing.JButton();
     buttonUpdate = new javax.swing.JButton();
     buttonErase = new javax.swing.JButton();
-    labelName = new javax.swing.JLabel();
-    buttonClean = new javax.swing.JButton();
-    scrollPanelBrands = new javax.swing.JScrollPane();
-    tableBrands = new javax.swing.JTable();
+    scrollPanelWaysPay = new javax.swing.JScrollPane();
+    tableWaysPay = new javax.swing.JTable();
     menuBar = new javax.swing.JMenuBar();
     menuManagement = new javax.swing.JMenu();
     menuItemBrand = new javax.swing.JMenuItem();
@@ -104,20 +104,31 @@ public class ManageBrands extends javax.swing.JFrame {
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     labelTitle.setFont(new java.awt.Font("Monospaced", 0, 24)); // NOI18N
-    labelTitle.setText("Brands");
+    labelTitle.setText("Way to Pay");
 
     panelControl.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
     labelSearch.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
     labelSearch.setText("Search");
 
-    textFieldSearchName.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+    labelDenomination.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+    labelDenomination.setText("Denomination:");
+
+    textFieldDenomination.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
 
     buttonSearch.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
     buttonSearch.setText("Search");
     buttonSearch.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonSearchActionPerformed(evt);
+      }
+    });
+
+    buttonClean.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+    buttonClean.setText("Clean");
+    buttonClean.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        buttonCleanActionPerformed(evt);
       }
     });
 
@@ -137,22 +148,11 @@ public class ManageBrands extends javax.swing.JFrame {
       }
     });
 
-    buttonErase.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+    buttonErase.setFont(new java.awt.Font("DejaVu Sans", 0, 14)); // NOI18N
     buttonErase.setText("Erase");
     buttonErase.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         buttonEraseActionPerformed(evt);
-      }
-    });
-
-    labelName.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-    labelName.setText("Name:");
-
-    buttonClean.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-    buttonClean.setText("Clean");
-    buttonClean.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        buttonCleanActionPerformed(evt);
       }
     });
 
@@ -165,7 +165,7 @@ public class ManageBrands extends javax.swing.JFrame {
         .addGroup(panelControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(panelControlLayout.createSequentialGroup()
             .addGap(6, 6, 6)
-            .addComponent(labelName))
+            .addComponent(labelDenomination))
           .addComponent(labelSearch)
           .addGroup(panelControlLayout.createSequentialGroup()
             .addComponent(buttonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -177,7 +177,7 @@ public class ManageBrands extends javax.swing.JFrame {
             .addComponent(buttonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(buttonErase, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addComponent(textFieldSearchName, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addComponent(textFieldDenomination, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     panelControlLayout.setVerticalGroup(
@@ -186,9 +186,9 @@ public class ManageBrands extends javax.swing.JFrame {
         .addContainerGap()
         .addComponent(labelSearch)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(labelName)
+        .addComponent(labelDenomination)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(textFieldSearchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(textFieldDenomination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(panelControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(buttonSearch)
@@ -201,7 +201,7 @@ public class ManageBrands extends javax.swing.JFrame {
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
-    tableBrands.setModel(new javax.swing.table.DefaultTableModel(
+    tableWaysPay.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
 
       },
@@ -209,7 +209,7 @@ public class ManageBrands extends javax.swing.JFrame {
 
       }
     ));
-    scrollPanelBrands.setViewportView(tableBrands);
+    scrollPanelWaysPay.setViewportView(tableWaysPay);
 
     javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
     mainPanel.setLayout(mainPanelLayout);
@@ -220,7 +220,7 @@ public class ManageBrands extends javax.swing.JFrame {
         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
           .addComponent(labelTitle)
           .addComponent(panelControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-          .addComponent(scrollPanelBrands, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+          .addComponent(scrollPanelWaysPay, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     mainPanelLayout.setVerticalGroup(
@@ -231,7 +231,7 @@ public class ManageBrands extends javax.swing.JFrame {
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(panelControl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(scrollPanelBrands, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(scrollPanelWaysPay, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
@@ -267,21 +267,26 @@ public class ManageBrands extends javax.swing.JFrame {
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
     );
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
   private void buttonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchActionPerformed
-    String brandName = null;
-    brandName = this.textFieldSearchName.getText();
-    this.loadTable(brandName);
+    String denomination = null;
+    denomination = this.textFieldDenomination.getText();
+    this.loadTable(denomination);
   }//GEN-LAST:event_buttonSearchActionPerformed
 
+  private void buttonCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCleanActionPerformed
+    this.clean();
+    this.loadTable("");
+  }//GEN-LAST:event_buttonCleanActionPerformed
+
   private void buttonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegisterActionPerformed
-    RegisterBrand view = null;
-    view = new RegisterBrand();
+    RegisterWayPay view = null;
+    view = new RegisterWayPay();
     view.setVisible(true);
     this.dispose();
   }//GEN-LAST:event_buttonRegisterActionPerformed
@@ -289,13 +294,13 @@ public class ManageBrands extends javax.swing.JFrame {
   private void buttonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateActionPerformed
     Util util = null;
     util = new Util();
-    UpdateBrand view = null;
-    short id;
+    UpdateWayPay view = null;
+    byte id;
     int row;
-    row = this.tableBrands.getSelectedRow();
-    if (this.tableBrands.isRowSelected(row)) {
-      id = this.listBrands.get(row).getBrandId();
-      view = new UpdateBrand(id);
+    row = this.tableWaysPay.getSelectedRow();
+    if (this.tableWaysPay.isRowSelected(row)) {
+      id = this.listWaysPay.get(row).getWayPayId();
+      view = new UpdateWayPay(id);
       view.setVisible(true);
       this.dispose();
     } else {
@@ -304,19 +309,19 @@ public class ManageBrands extends javax.swing.JFrame {
   }//GEN-LAST:event_buttonUpdateActionPerformed
 
   private void buttonEraseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEraseActionPerformed
-    Util util = null;
-    SQLBrandQuery querys = null;
-    util = new Util();
-    short id;
+    byte id;
     int row;
     int result;
-    row = this.tableBrands.getSelectedRow();
-    if (this.tableBrands.isRowSelected(row)) {
-      id = this.listBrands.get(row).getBrandId();
+    Util util = null;
+    SQLWayPayQuery querys = null;
+    util = new Util();
+    querys = new SQLWayPayQuery();
+    row = this.tableWaysPay.getSelectedRow();
+    if (this.tableWaysPay.isRowSelected(row)) {
+      id = this.listWaysPay.get(row).getWayPayId();
       result = util.getEraseAnswer();
       if (result == JOptionPane.YES_OPTION) {
-        querys = new SQLBrandQuery();
-        querys.eraseBrand(id);
+        querys.eraseWayPay(id);
         this.loadTable("");
       }
     } else {
@@ -324,18 +329,13 @@ public class ManageBrands extends javax.swing.JFrame {
     }
   }//GEN-LAST:event_buttonEraseActionPerformed
 
-  private void buttonCleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCleanActionPerformed
-    this.clean();
-    this.loadTable("");
-  }//GEN-LAST:event_buttonCleanActionPerformed
-
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton buttonClean;
   private javax.swing.JButton buttonErase;
   private javax.swing.JButton buttonRegister;
   private javax.swing.JButton buttonSearch;
   private javax.swing.JButton buttonUpdate;
-  private javax.swing.JLabel labelName;
+  private javax.swing.JLabel labelDenomination;
   private javax.swing.JLabel labelSearch;
   private javax.swing.JLabel labelTitle;
   private javax.swing.JPanel mainPanel;
@@ -348,8 +348,8 @@ public class ManageBrands extends javax.swing.JFrame {
   private javax.swing.JMenu menuManagement;
   private javax.swing.JMenu menuReport;
   private javax.swing.JPanel panelControl;
-  private javax.swing.JScrollPane scrollPanelBrands;
-  private javax.swing.JTable tableBrands;
-  private javax.swing.JTextField textFieldSearchName;
+  private javax.swing.JScrollPane scrollPanelWaysPay;
+  private javax.swing.JTable tableWaysPay;
+  private javax.swing.JTextField textFieldDenomination;
   // End of variables declaration//GEN-END:variables
 }
